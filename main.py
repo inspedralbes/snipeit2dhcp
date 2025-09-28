@@ -2,6 +2,20 @@ import os
 import requests
 from dotenv import load_dotenv
 
+
+# Per començar, copia .env.example a .env i edita les variables segons el teu entorn.
+
+# Crea un entorn virtual (opcional però recomanat):
+# apt install python3.12-venv
+# python3 -m venv venv
+# source venv/bin/activate   (o venv\Scripts\activate a Windows)
+
+
+
+# i després instal·la les dependències:
+# pip install -r requirements.txt
+
+
 # Carregar variables d'entorn des del fitxer .env
 load_dotenv()
 
@@ -18,11 +32,12 @@ headers = {
 
 def obtenir_assets():
     assets = []
-    url = f"{API_URL}/api/v1/hardware?limit=2&location=23"
-    params = {"limit": 1000}  # ajustar segons el teu entorn
-
+    url = f"{API_URL}/api/v1/hardware"
+    params = {"limit": 2,
+              "location": 23
+              } 
     while url:
-        r = requests.get(url, headers=headers, params=params)
+        r = requests.get(url, headers=headers, params=params, verify=False)
         r.raise_for_status()
         data = r.json()
         assets.extend(data.get("rows", []))
